@@ -3,6 +3,7 @@ import json
 
 from src.langgraph_agentic_ai.graphs.graph_builder import GraphBuilder
 from src.langgraph_agentic_ai.llms.groq_llm import GroqLLM
+from src.langgraph_agentic_ai.llms.openai_llm import OpenAiLLM
 from src.langgraph_agentic_ai.ui.streamlit_ui.display_result import DisplayResultStreamlit
 from src.langgraph_agentic_ai.ui.streamlit_ui.load_ui import LoadStreamlitUI
 
@@ -33,7 +34,10 @@ def load_langgraph_agenticai_app():
     if user_message:
             try:
                 # Configure LLM
-                obj_llm_config = GroqLLM(user_controls_input=user_input)
+                if user_input["selected_llm"] == 'OpenAI':
+                    obj_llm_config = OpenAiLLM(user_controls_input=user_input)
+                else:
+                    obj_llm_config = GroqLLM(user_controls_input=user_input)
                 model = obj_llm_config.get_llm_model()
                 
                 if not model:
